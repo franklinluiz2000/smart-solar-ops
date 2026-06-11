@@ -2,12 +2,15 @@ services:
   timescaledb:
     image: timescale/timescaledb:latest-pg15
     container_name: solar_db
+    # O Docker injeta as variáveis do arquivo .env aqui dentro
+    env_file:
+      - .env
     environment:
-      - POSTGRES_DB=solar_ops
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=secretpass
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:5432"
     volumes:
       - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
       - postgres_data:/var/lib/postgresql/data
@@ -17,11 +20,10 @@ services:
   app:
     build: ./app
     container_name: solar_processor
+    env_file:
+      - .env
     environment:
       - DB_HOST=timescaledb
-      - DB_NAME=solar_ops
-      - DB_USER=admin
-      - DB_PASSWORD=secretpass
     depends_on:
       - timescaledb
     networks:
@@ -33,7 +35,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}
     volumes:
       - grafana_data:/var/lib/grafana
     depends_on:
