@@ -1,0 +1,37 @@
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg15
+    container_name: solar_db
+    environment:
+      - POSTGRES_DB=solar_ops
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=secretpass
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - solar_network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: solar_grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana_data:/var/lib/grafana
+    depends_on:
+      - timescaledb
+    networks:
+      - solar_network
+
+networks:
+  solar_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  grafana_data:
