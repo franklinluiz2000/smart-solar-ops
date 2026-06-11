@@ -14,6 +14,19 @@ services:
     networks:
       - solar_network
 
+  app:
+    build: ./app
+    container_name: solar_processor
+    environment:
+      - DB_HOST=timescaledb
+      - DB_NAME=solar_ops
+      - DB_USER=admin
+      - DB_PASSWORD=secretpass
+    depends_on:
+      - timescaledb
+    networks:
+      - solar_network
+
   grafana:
     image: grafana/grafana:latest
     container_name: solar_grafana
