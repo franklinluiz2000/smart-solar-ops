@@ -36,5 +36,5 @@ O projeto foi totalmente containerizado para garantir que suba em qualquer ambie
 
 1. Clone o repositório:
    ```bash
-   git clone [https://github.com/SEU_USUARIO/smart-solar-ops.git](https://github.com/SEU_USUARIO/smart-solar-ops.git)
+   git clone git@github.com:franklinluiz2000/smart-solar-ops.git
    cd smart-solar-ops
