@@ -1,0 +1,19 @@
+# Ambientes Virtuais (Locais)
+venv/
+.venv/
+env/
+
+# Arquivos Secretos (NUNCA suba para o GitHub)
+.env
+
+# Caches do Python
+**/__pycache__/
+*.pyc
+
+# Configurações de IDEs
+.vscode/
+.idea/
+
+# Dados locais do banco (mapeados nos volumes do Docker)
+postgres_data/
+grafana_data/
